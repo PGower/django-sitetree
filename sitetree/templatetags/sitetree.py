@@ -4,6 +4,10 @@ from django.template.base import FilterExpression
 
 from ..sitetreeapp import get_sitetree
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 register = template.Library()
 
 # All utility methods are implemented in SiteTree class
@@ -307,3 +311,15 @@ def render(context, tree_items, use_template):
     context.pop()
 
     return content
+
+
+# Jinja2 Support
+# At the moment we need to use django_jinja because it provides a mechanism to load Jinja2 global functions like django's template tags.
+try:
+    from django_jinja import library
+    import jinja2
+except ImportError:
+    logger.exception('Some of the requirements for Jinja2 support are missing.')
+else:
+    pass
+  
